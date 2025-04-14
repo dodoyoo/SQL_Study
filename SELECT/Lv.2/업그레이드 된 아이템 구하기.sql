@@ -32,6 +32,15 @@ ROOT 아이템이 없는 경우는 존재하지 않습니다.
 아이템의 희귀도가 'RARE'인 아이템들의 모든 다음 업그레이드 아이템의 
 아이템 ID(ITEM_ID), 아이템 명(ITEM_NAME), 아이템의 희귀도(RARITY)를 출력하는 SQL 문을 작성해 주세요.
 이때 결과는 아이템 ID를 기준으로 내림차순 정렬주세요.
-
-
 */
+
+SELECT t.item_id, i.item_name, i.rarity
+FROM item_info i
+JOIN item_tree t
+ON i.item_id = t.item_id
+WHERE parent_item_id IN (
+    SELECT item_id
+    FROM item_info
+    WHERE rarity = "RARE"
+)
+ORDER BY t.item_id DESC
